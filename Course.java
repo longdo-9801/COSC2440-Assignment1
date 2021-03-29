@@ -1,7 +1,7 @@
 package Assignment1;
 import java.util.Scanner;
 
-public class Course implements StudentEnrolmentManager {
+public class Course {
     private String cID;
     private String cName;
     private int credits;
@@ -25,34 +25,11 @@ public class Course implements StudentEnrolmentManager {
     }
 
     @Override
-    public void addEnrol() {
-        Scanner inputer = new Scanner(System.in);
-        System.out.println("Please enter the student id of the student you wish to enroll: ");
-        String sIDInput = inputer.nextLine();
-        System.out.println("Please enter the targeted semester: ");
-        String semesterInput = inputer.nextLine();
-
-        StudentEnrolment enrolment = new StudentEnrolment(sIDInput, getcID(), semesterInput);
-        System.out.println(enrolment.toString());
-    }
-
-    @Override
-    public void updateEnrol() {
-
-    }
-
-    @Override
-    public void deleteEnrol() {
-
-    }
-
-    @Override
-    public void getOne() {
-
-    }
-
-    @Override
-    public void getAll() {
-
+    public String toString() {
+        return "Course{" +
+                "cID='" + cID + '\'' +
+                ", cName='" + cName + '\'' +
+                ", credits=" + credits +
+                '}';
     }
 }
