@@ -1,0 +1,18 @@
+Course list (ID, name, credits)
+
+"NAV001",	"Naval Engineering Basic",			12
+"NAV005",	"Naval Ballistic, 14 to 16 inch artillery",	12
+"SAM001",	"Surface-to-Air Missile 101",			12
+
+Student list (ID, name birthdate)
+
+"S3630000", "John Smith",			"1998-10-21"
+"S3632000", "Anne Ayler",			"1998-04-19"
+"S3635661", "Lee Sun Kim",			"1998-06-01"
+"S3630022", "Takanashi Kiara",			"1998-10-21"
+"S3634050", "Do Vuong Trai",			"1998-07-31"
+"S3630500", "Diarmuid Ua Duibhne",		"1999-02-03"
+"S3637600", "Momo Nene",			"1999-05-23"
+"S3638500", "John K. Astaroth",			"2000-02-26"
+"S3630710", "Victor von Krakenstein Jr.",	"2000-04-07"
+"S3630057", "John Smith",			"2000-07-24"
