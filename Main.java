@@ -1,17 +1,17 @@
 package Assignment1;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class Main {//implements StudentEnrolmentManager {
+public class Main {
 
     public static boolean endProgram() {
         System.out.println("--------------------------------------------------------------------------------------");
-        boolean inputCheck = false;
-        while (!inputCheck) {
+        while (true) {
             System.out.println("Do you want to end the program(Y/N):");
             Scanner ynScanner = new Scanner(System.in);
             String input = ynScanner.nextLine();
@@ -23,10 +23,57 @@ public class Main {//implements StudentEnrolmentManager {
                 System.out.println("Please input only y or n.");
             }
         }
-        return false;
     }
 
-    public static void addStudent() {
+    public static void populateLists(File file, ArrayList<StudentEnrolment> enrolList, ArrayList<Course> courseList, ArrayList<Student> studentList) throws FileNotFoundException {
+        Scanner scanner = new Scanner(file);
+        Student newStudent;
+        Course newCourse;
+        StudentEnrolment newEnrol;
+        int intParser;
+        while(scanner.hasNext()) {
+            String part = scanner.nextLine();
+            if (part.length() == 0) continue;
+            String[] parts = part.split(",");
+            try {
+                intParser = Integer.parseInt(parts[5]);
+            } catch (NumberFormatException e) {
+                intParser = 0;
+            }
+            //dateParser = LocalDate.parse(,DateTimeFormatter.ofPattern("yyyy/MM/dd"));
+            newStudent = new Student(parts[0],parts[1],parts[2]);
+            newCourse = new Course(parts[3],parts[4],intParser);
+            newEnrol = new StudentEnrolment(parts[6], newStudent, newCourse);
+            if (enrolList.size() == 0) {
+                courseList.add(newCourse);
+                studentList.add(newStudent);
+                enrolList.add(newEnrol);
+            } else {
+                for (int i = 0; i < enrolList.size(); i++) {
+                    if (enrolList.get(i).getStudents().getsID().equalsIgnoreCase(newStudent.getsID()) && enrolList.get(i).getCourses().getcID().equalsIgnoreCase(newCourse.getcID())) {
+                        break;
+                    } else if (i == (enrolList.size() - 1)){
+                        enrolList.add(newEnrol);
+                        for (int j = 0; j < courseList.size(); j++) { //Check for ID in Student List, no checking for misspelling
+                            if ((courseList.get(j).getcID()).equalsIgnoreCase(newCourse.getcID())) {
+                                break;
+                            } else if (j == (courseList.size() - 1)) {
+                                courseList.add(newCourse);
+                            }
+                        }
+
+                        for (int k = 0; k < studentList.size(); k++) { //Check for ID in Student List, no checking for misspelling
+                            if ((studentList.get(k).getsID()).equalsIgnoreCase(newStudent.getsID())) {
+                                break;
+                            } else if (k == (studentList.size() - 1)) {
+
+                                studentList.add(newStudent);
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
     }
 
@@ -74,37 +121,68 @@ public class Main {//implements StudentEnrolmentManager {
         }
     }
 
+    public static File checkFileInput(){
+        Scanner inputer = new Scanner(System.in);
+        while (true) { //Input Screening
+            System.out.println("Please enter the name of the .csv file you wish to use (please do not type in the .csv extension): ");
+            String filename = inputer.nextLine() + ".csv";
+            File file = new File(filename);
+            if (file.isFile()) {
+                System.out.println("Getting " + file.getName() + "...");
+                return file;
+            } else {
+                System.out.println("File does not exist. Do you want to retype the file name(Y/N):");
+                Scanner ynScanner = new Scanner(System.in);
+                String input = ynScanner.nextLine();
+                if (input.equalsIgnoreCase(String.valueOf('y'))) {
+                    System.out.println("Retype confirm...");
+                } else if (input.equalsIgnoreCase(String.valueOf('n'))) {
+                    System.out.println("Switching to default.csv");
+                    return new File("default.csv");
+                } else {
+                    System.out.println("Please input only y or n.");
+                }
+            }
+        }
 
-
+    }
     public static void main(String[] args) {
 	// write your code here
 
         // Populating a list of course
         ArrayList<Course> courseList = new ArrayList<>();
-        courseList.add(new Course("NAV001","Naval Engineering Basic",12));
-        courseList.add(new Course("NAV005","Naval Ballistic: 14 to 16 inch artillery",12));
-        courseList.add(new Course("SAM001","Surface-to-Air Missile 101",12));
+//        courseList.add(new Course("NAV001","Naval Engineering Basic",12));
+//        courseList.add(new Course("NAV005","Naval Ballistic: 14 to 16 inch artillery",12));
+//        courseList.add(new Course("SAM001","Surface-to-Air Missile 101",12));
+
         //Populating a list of student
         ArrayList<Student> studentList = new ArrayList<>();
-        studentList.add(new Student("S3630000", "John Smith","1998-10-21"));
-        studentList.add(new Student("S3632000", "Anne Ayler","1998-04-19"));
-        studentList.add(new Student("S3635661", "Lee Sun Kim","1998-06-01"));
-        studentList.add(new Student("S3630022", "Takanashi Kiara","1998-10-21"));
-        studentList.add(new Student("S3634050", "Do Vuong Trai","1998-07-31"));
-        studentList.add(new Student("S3630500", "Diarmuid Ua Duibhne","1999-02-03"));
-        studentList.add(new Student("S3637600", "Momo Nene","1999-05-23"));
-        studentList.add(new Student("S3638500", "John K. Astaroth","2000-02-26"));
-        studentList.add(new Student("S3630710", "Victor von Krakenstein Jr.","2000-04-07"));
-        studentList.add(new Student("S3630057", "John Smith","2000-07-24"));
+//            studentList.add(new Student("S3630000", "John Smith","1998/10/21"));
+//            studentList.add(new Student("S3632000", "Anne Ayler","1998/04/19"));
+//            studentList.add(new Student("S3635661", "Lee Sun Kim","1998/06/01"));
+//            studentList.add(new Student("S3630022", "Takanashi Kiara","1998/10/21"));
+//            studentList.add(new Student("S3634050", "Do Vuong Trai","1998/07/31"));
+//            studentList.add(new Student("S3630500", "Diarmuid Ua Duibhne","1999/02/03"));
+//            studentList.add(new Student("S3637600", "Momo Nene","1999/05/23"));
+//            studentList.add(new Student("S3638500", "John K. Astaroth","2000/02/26"));
+//            studentList.add(new Student("S3630710", "Victor von Krakenstein Jr.","2000/04/07"));
+//            studentList.add(new Student("S3630057", "John Smith","2000/07/24"));
+
         //Populating a semester list for easy lookup check.
-        String[] semesterList = {"2020B", "2020C","2021A"};
+        String[] semesterList = {"2020A", "2020B","2020C","2021A", "2021B","2021C","2022A", "2022B","2022C"};
         //Create a enrollment list
         ArrayList<StudentEnrolment> enrolList = new ArrayList<>();
-        enrolList.add(new StudentEnrolment("2020A", studentList.get(0),courseList.get(0)));
-        enrolList.add(new StudentEnrolment("2020A", studentList.get(0),courseList.get(1)));
-        enrolList.add(new StudentEnrolment("2020A", studentList.get(1),courseList.get(1)));
-        enrolList.add(new StudentEnrolment("2021C", studentList.get(0),courseList.get(2)));
+//        enrolList.add(new StudentEnrolment("2020A", studentList.get(0),courseList.get(0)));
+//        enrolList.add(new StudentEnrolment("2020A", studentList.get(0),courseList.get(1)));
+//        enrolList.add(new StudentEnrolment("2020A", studentList.get(1),courseList.get(1)));
+//        enrolList.add(new StudentEnrolment("2021C", studentList.get(0),courseList.get(2)));
 
+        File inputFile = checkFileInput();
+        try {
+            populateLists(inputFile, enrolList, courseList, studentList);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
 
         //Menu codes below this line
         boolean endProgramCheck = false;

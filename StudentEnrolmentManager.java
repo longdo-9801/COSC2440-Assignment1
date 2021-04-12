@@ -33,7 +33,6 @@ public interface StudentEnrolmentManager {
         String inputSemester = checkSemester(semesterList);
 
         enrolList.add(new StudentEnrolment(inputSemester, inputStudent, inputCourse));
-        ///enrolList.add(new StudentEnrolment("2020A", studentList.get(0),courseList.get(0))); //Test input
         System.out.println("Added enrol:" + (enrolList.get(enrolList.size()-1)).toString());
         System.out.println(enrolList.toString());
     }
@@ -123,14 +122,12 @@ public interface StudentEnrolmentManager {
 
     static void getAll(ArrayList<StudentEnrolment> enrolList, ArrayList<Course> courseList, ArrayList<Student> studentList, String[] semesterList) throws IOException {
         ArrayList<StudentEnrolment> enrolQuery = new ArrayList<>(multiEnrollmentQuery(enrolList, courseList, studentList, semesterList));
-        //FileWriter writer = new FileWriter("output_report.csv");
         System.out.println("Do you wish to output the result to a file(Y/N):");
         Scanner ynScanner = new Scanner(System.in);
         String input = ynScanner.nextLine();
         if (input.equalsIgnoreCase(String.valueOf('y'))) {
             FileWriter writer = new FileWriter("output_report.csv");
             for (StudentEnrolment enrolPointer : enrolQuery) {
-                //System.out.println(enrolPointer.toCSV());
                 writer.write(enrolPointer.toCSV()+"\n");
             }
             writer.close();
@@ -142,17 +139,12 @@ public interface StudentEnrolmentManager {
 
     }
 
-
     static Student checkStudent(ArrayList<Student> studentList) {
         Scanner inputer = new Scanner(System.in);
-        boolean foundItem = false;
-        while (!foundItem) { //Input Screening
+        while (true) { //Input Screening
             System.out.println("Please enter the student id of the student you wish to enroll(ex. S0000000): ");
             String sIDInput = inputer.nextLine();
-            //int counter = 1; // For checking number of loop
-            for (Student studentPointer : studentList) { //Check for ID in Student List, no checking for misspelling
-                //System.out.println("Loop no. " + counter); //Checking if loop can go through list
-                //counter++;
+            for (Student studentPointer : studentList) {
                 if ((studentPointer.getsID()).equalsIgnoreCase(sIDInput)) {
                     System.out.println("Student id confirmed");
                     System.out.println("Retrieving student info...");
@@ -164,22 +156,15 @@ public interface StudentEnrolmentManager {
 
 
         }
-        return null;
-
     }
 
     static Course checkCourse(ArrayList<Course> courseList) {
         Scanner inputer = new Scanner(System.in);
-        boolean foundItem = false;
-        while (!foundItem) { //Input Screening
+        while (true) { //Input Screening
             System.out.println("Please enter the course id of the course you wish to enroll(ex. ATM005): ");
             String cIDInput = inputer.nextLine();
-            //int counter = 1; // For checking number of loop
             for (Course coursePointer : courseList) { //Check for ID in Student List, no checking for misspelling
-                //System.out.println("Loop no. " + counter); //Checking if loop can go through list
-                //counter++;
                 if ((coursePointer.getcID()).equalsIgnoreCase(cIDInput)) {
-                    foundItem = true;
                     System.out.println("Course id confirmed");
                     System.out.println("Retrieving course info...");
                     System.out.println(coursePointer.toString());
@@ -188,29 +173,22 @@ public interface StudentEnrolmentManager {
             }
             System.out.println("The course ID is wrong, please enter correct ID");
         }
-        return null;
     }
 
     static String checkSemester(String[] semesterList) {
         Scanner inputer = new Scanner(System.in);
-        boolean foundItem = false;
-        while (!foundItem) { //Input Screening
+        while (true) { //Input Screening
             System.out.println("Please enter desired the semester(ex. 2020A, 2021C or 2020): ");
             String semesterInput = inputer.nextLine();
-            //int counter = 1; // For checking number of loop
-            for (String semPointer : semesterList) { //Check for ID in Semester List, limited to 2020-2022 for simplicity
-                //System.out.println("Loop no. " + counter); //Checking if loop can go through list
-                //counter++;
+            for (String semPointer : semesterList) { //Check for ID in Semester List, limited to 2020B-2021A for simplicity
                 if ((semPointer).equalsIgnoreCase(semesterInput)) {
                     System.out.println("Semester ["+ semPointer + "] confirmed");
-
                     return semesterInput;
                 }
             }
             System.out.println("The semester is wrong, please enter correct semester");
 
         }
-        return "XXXX";
     }
 
     static ArrayList<StudentEnrolment> multiEnrollmentQuery(ArrayList<StudentEnrolment> enrolList, ArrayList<Course> courseList, ArrayList<Student> studentList, String[] semesterList) {
