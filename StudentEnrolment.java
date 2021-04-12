@@ -1,9 +1,5 @@
 package Assignment1;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
-
 public class StudentEnrolment{
     private String semester;
     private Student students;
@@ -27,6 +23,18 @@ public class StudentEnrolment{
         return courses;
     }
 
+    public void setSemester(String semester) {
+        this.semester = semester;
+    }
+
+    public void setStudents(Student students) {
+        this.students = students;
+    }
+
+    public void setCourses(Course courses) {
+        this.courses = courses;
+    }
+
     @Override
     public String toString() {
         return "Enrollment: " + students.getsName()
@@ -34,5 +42,11 @@ public class StudentEnrolment{
                 + courses.getcName()
                 + "(" + courses.getcID() + ")" + " in semester "
                 + semester;
+    }
+
+    public String toCSV() {
+        return  students.toCSV() + "," +
+                courses.toCSV() + "," +
+                this.getSemester() ;
     }
 }

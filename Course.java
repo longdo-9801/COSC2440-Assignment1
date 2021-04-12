@@ -1,5 +1,4 @@
 package Assignment1;
-import java.util.Scanner;
 
 public class Course {
     private String cID;
@@ -26,10 +25,16 @@ public class Course {
 
     @Override
     public String toString() {
-        return "Course{" +
-                "cID='" + cID + '\'' +
-                ", cName='" + cName + '\'' +
-                ", credits=" + credits +
-                '}';
+        return "Course: " +
+                cID + '-' +
+                cName +
+                "(credits: " + credits + ")"
+                ;
+    }
+
+    public String toCSV() {
+        return this.getcID() + "," +
+                this.getcName() + "," +
+                this.getCredits();
     }
 }

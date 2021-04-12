@@ -28,10 +28,15 @@ public class Student {
 
     @Override
     public String toString() {
-        return "Student{" +
-                "sID='" + sID + '\'' +
-                ", sName='" + sName + '\'' +
-                ", birthdate=" + birthdate +
-                '}';
+        return "Student: " + sName +
+                "(" + sID + ")" +
+                ", birthdate:" + birthdate
+                ;
+    }
+
+    public String toCSV() {
+        return this.getsID() + "," +
+                this.getsName() + "," +
+                this.getBirthdate();
     }
 }
