@@ -174,7 +174,6 @@ public interface StudentEnrolmentManager {
             System.out.println("The course ID is wrong, please enter correct ID");
         }
     }
-
     static String checkSemester(String[] semesterList) {
         Scanner inputer = new Scanner(System.in);
         while (true) { //Input Screening
@@ -192,65 +191,65 @@ public interface StudentEnrolmentManager {
     }
 
     static ArrayList<StudentEnrolment> multiEnrollmentQuery(ArrayList<StudentEnrolment> enrolList, ArrayList<Course> courseList, ArrayList<Student> studentList, String[] semesterList) {
-            Scanner reportSelectorInput = new Scanner(System.in);
-            byte input = 0;
-            ArrayList<StudentEnrolment> masterQuery = new ArrayList<>();
-            System.out.println("Please select how you wish to find the enrolments\n" +
-                    "1. Print all courses for 1 student in 1 semester.\n" +
-                    "2. Print all students of 1 course in 1 semester.\n" +
-                    "3. Prints all courses offered in 1 semester.\n" +
-                    "--------------------------------------------------------------------------------------");
+        Scanner reportSelectorInput = new Scanner(System.in);
+        byte input = 0;
+        ArrayList<StudentEnrolment> masterQuery = new ArrayList<>();
+        System.out.println("Please select how you wish to find the enrolments\n" +
+                "1. Print all courses for 1 student in 1 semester.\n" +
+                "2. Print all students of 1 course in 1 semester.\n" +
+                "3. Prints all courses offered in 1 semester.\n" +
+                "--------------------------------------------------------------------------------------");
 
-            boolean selectorCheck = true;
+        boolean selectorCheck = true;
 
-            while (selectorCheck) {
-                //Input screening
-                try {
-                    System.out.print("Enter your selection here(1, 2, or 3): ");
-                    input = reportSelectorInput.nextByte();
-                    if (input >= 1 && input <= 3) {
-                        selectorCheck = false;
-                    } else {
-                        System.out.println("Please enter only 1, 2, or 3");
-                    }
-
-                } catch (InputMismatchException e) {
+        while (selectorCheck) {
+            //Input screening
+            try {
+                System.out.print("Enter your selection here(1, 2, or 3): ");
+                input = reportSelectorInput.nextByte();
+                if (input >= 1 && input <= 3) {
+                    selectorCheck = false;
+                } else {
                     System.out.println("Please enter only 1, 2, or 3");
-                    reportSelectorInput.next();
                 }
+
+            } catch (InputMismatchException e) {
+                System.out.println("Please enter only 1, 2, or 3");
+                reportSelectorInput.next();
             }
-            ArrayList<StudentEnrolment> tempArray = new ArrayList<>();
-            switch (input) {
-                case 1:
-                    tempArray.addAll(queryStudent(enrolList,studentList));
-                    if (tempArray.size() == 0) {
-                        System.out.println("No enrollment was found.");
-                    } else {
-                        masterQuery.addAll(querySemester(tempArray,semesterList));
-                        for (StudentEnrolment enrolPointer : masterQuery) {
-                            System.out.println(enrolPointer.toString());
-                        }
-                    }
-                    break;
-                case 2:
-                    tempArray.addAll(queryCourse(enrolList,courseList));
-                    if (tempArray.size() == 0) {
-                        System.out.println("No enrollment was found.");
-                    } else {
-                        masterQuery.addAll(querySemester(tempArray,semesterList));
-                        for (StudentEnrolment enrolPointer : masterQuery) {
-                            System.out.println(enrolPointer.toString());
-                        }
-                    }
-                    break;
-                case 3:
-                    masterQuery.addAll(querySemester(enrolList,semesterList));
+        }
+        ArrayList<StudentEnrolment> tempArray = new ArrayList<>();
+        switch (input) {
+            case 1:
+                tempArray.addAll(queryStudent(enrolList,studentList));
+                if (tempArray.size() == 0) {
+                    System.out.println("No enrollment was found.");
+                } else {
+                    masterQuery.addAll(querySemester(tempArray,semesterList));
                     for (StudentEnrolment enrolPointer : masterQuery) {
-                        System.out.println(enrolPointer.getCourses().toString());
+                        System.out.println(enrolPointer.toString());
                     }
-                    break;
-            }
-    return masterQuery;
+                }
+                break;
+            case 2:
+                tempArray.addAll(queryCourse(enrolList,courseList));
+                if (tempArray.size() == 0) {
+                    System.out.println("No enrollment was found.");
+                } else {
+                    masterQuery.addAll(querySemester(tempArray,semesterList));
+                    for (StudentEnrolment enrolPointer : masterQuery) {
+                        System.out.println(enrolPointer.toString());
+                    }
+                }
+                break;
+            case 3:
+                masterQuery.addAll(querySemester(enrolList,semesterList));
+                for (StudentEnrolment enrolPointer : masterQuery) {
+                    System.out.println(enrolPointer.getCourses().toString());
+                }
+                break;
+        }
+        return masterQuery;
     }
 
     static int singleEnrollmentQuery(ArrayList<StudentEnrolment> enrolList, ArrayList<Course> courseList, ArrayList<Student> studentList) {

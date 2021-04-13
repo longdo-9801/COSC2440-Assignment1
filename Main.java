@@ -124,7 +124,8 @@ public class Main {
     public static File checkFileInput(){
         Scanner inputer = new Scanner(System.in);
         while (true) { //Input Screening
-            System.out.println("Please enter the name of the .csv file you wish to use (please do not type in the .csv extension): ");
+            System.out.println("Please enter the name of the .csv file you wish to use (please do not type in the .csv extension) ");
+            System.out.println("if you want to use the default.csv, type default : ");
             String filename = inputer.nextLine() + ".csv";
             File file = new File(filename);
             if (file.isFile()) {
