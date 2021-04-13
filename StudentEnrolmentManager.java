@@ -121,14 +121,14 @@ public interface StudentEnrolmentManager {
     }
 
     static void getAll(ArrayList<StudentEnrolment> enrolList, ArrayList<Course> courseList, ArrayList<Student> studentList, String[] semesterList) throws IOException {
-        ArrayList<StudentEnrolment> enrolQuery = new ArrayList<>(multiEnrollmentQuery(enrolList, courseList, studentList, semesterList));
+        ArrayList<String> outputQuery = new ArrayList<String>(multiEnrollmentQuery(enrolList, courseList, studentList, semesterList));
         System.out.println("Do you wish to output the result to a file(Y/N):");
         Scanner ynScanner = new Scanner(System.in);
         String input = ynScanner.nextLine();
         if (input.equalsIgnoreCase(String.valueOf('y'))) {
             FileWriter writer = new FileWriter("output_report.csv");
-            for (StudentEnrolment enrolPointer : enrolQuery) {
-                writer.write(enrolPointer.toCSV()+"\n");
+            for (String enrolPointer : outputQuery) {
+                writer.write(enrolPointer.toString()+"\n");
             }
             writer.close();
         } else if (input.equalsIgnoreCase(String.valueOf('n'))) {
@@ -190,14 +190,15 @@ public interface StudentEnrolmentManager {
         }
     }
 
-    static ArrayList<StudentEnrolment> multiEnrollmentQuery(ArrayList<StudentEnrolment> enrolList, ArrayList<Course> courseList, ArrayList<Student> studentList, String[] semesterList) {
+    static ArrayList<String> multiEnrollmentQuery(ArrayList<StudentEnrolment> enrolList, ArrayList<Course> courseList, ArrayList<Student> studentList, String[] semesterList) {
         Scanner reportSelectorInput = new Scanner(System.in);
         byte input = 0;
         ArrayList<StudentEnrolment> masterQuery = new ArrayList<>();
+        ArrayList<String> stringForOutput = new ArrayList<>();
         System.out.println("Please select how you wish to find the enrolments\n" +
-                "1. Print all courses for 1 student in 1 semester.\n" +
-                "2. Print all students of 1 course in 1 semester.\n" +
-                "3. Prints all courses offered in 1 semester.\n" +
+                "1. Find all courses for 1 student in 1 semester.\n" +
+                "2. Find all students of 1 course in 1 semester.\n" +
+                "3. Find all courses offered in 1 semester.\n" +
                 "--------------------------------------------------------------------------------------");
 
         boolean selectorCheck = true;
@@ -228,6 +229,7 @@ public interface StudentEnrolmentManager {
                     masterQuery.addAll(querySemester(tempArray,semesterList));
                     for (StudentEnrolment enrolPointer : masterQuery) {
                         System.out.println(enrolPointer.toString());
+                        stringForOutput.add(enrolPointer.getCourses().toCSV());
                     }
                 }
                 break;
@@ -239,6 +241,8 @@ public interface StudentEnrolmentManager {
                     masterQuery.addAll(querySemester(tempArray,semesterList));
                     for (StudentEnrolment enrolPointer : masterQuery) {
                         System.out.println(enrolPointer.toString());
+                        stringForOutput.add(enrolPointer.getStudents().toCSV());
+
                     }
                 }
                 break;
@@ -246,10 +250,11 @@ public interface StudentEnrolmentManager {
                 masterQuery.addAll(querySemester(enrolList,semesterList));
                 for (StudentEnrolment enrolPointer : masterQuery) {
                     System.out.println(enrolPointer.getCourses().toString());
+                    stringForOutput.add(enrolPointer.getCourses().toCSV());
                 }
                 break;
         }
-        return masterQuery;
+        return stringForOutput;
     }
 
     static int singleEnrollmentQuery(ArrayList<StudentEnrolment> enrolList, ArrayList<Course> courseList, ArrayList<Student> studentList) {

@@ -32,29 +32,28 @@ public class Main {
         StudentEnrolment newEnrol;
         int intParser;
         while(scanner.hasNext()) {
-            String part = scanner.nextLine();
-            if (part.length() == 0) continue;
+            String part = scanner.nextLine();               //CSV parser
+            if (part.length() == 0) continue;               //
             String[] parts = part.split(",");
             try {
                 intParser = Integer.parseInt(parts[5]);
             } catch (NumberFormatException e) {
                 intParser = 0;
             }
-            //dateParser = LocalDate.parse(,DateTimeFormatter.ofPattern("yyyy/MM/dd"));
             newStudent = new Student(parts[0],parts[1],parts[2]);
             newCourse = new Course(parts[3],parts[4],intParser);
             newEnrol = new StudentEnrolment(parts[6], newStudent, newCourse);
-            if (enrolList.size() == 0) {
+            if (enrolList.size() == 0) { //If list is empty, automatically add entry
                 courseList.add(newCourse);
                 studentList.add(newStudent);
                 enrolList.add(newEnrol);
             } else {
                 for (int i = 0; i < enrolList.size(); i++) {
                     if (enrolList.get(i).getStudents().getsID().equalsIgnoreCase(newStudent.getsID()) && enrolList.get(i).getCourses().getcID().equalsIgnoreCase(newCourse.getcID())) {
-                        break;
+                        break;// Check for duplication in enrolment list.
                     } else if (i == (enrolList.size() - 1)){
                         enrolList.add(newEnrol);
-                        for (int j = 0; j < courseList.size(); j++) { //Check for ID in Student List, no checking for misspelling
+                        for (int j = 0; j < courseList.size(); j++) { //Check for ID in Course List, add Course to list if not found
                             if ((courseList.get(j).getcID()).equalsIgnoreCase(newCourse.getcID())) {
                                 break;
                             } else if (j == (courseList.size() - 1)) {
@@ -62,7 +61,7 @@ public class Main {
                             }
                         }
 
-                        for (int k = 0; k < studentList.size(); k++) { //Check for ID in Student List, no checking for misspelling
+                        for (int k = 0; k < studentList.size(); k++) { //Check for ID in Student List, add Student to list if not found
                             if ((studentList.get(k).getsID()).equalsIgnoreCase(newStudent.getsID())) {
                                 break;
                             } else if (k == (studentList.size() - 1)) {
@@ -158,16 +157,16 @@ public class Main {
 
         //Populating a list of student
         ArrayList<Student> studentList = new ArrayList<>();
-//            studentList.add(new Student("S3630000", "John Smith","1998/10/21"));
-//            studentList.add(new Student("S3632000", "Anne Ayler","1998/04/19"));
-//            studentList.add(new Student("S3635661", "Lee Sun Kim","1998/06/01"));
-//            studentList.add(new Student("S3630022", "Takanashi Kiara","1998/10/21"));
-//            studentList.add(new Student("S3634050", "Do Vuong Trai","1998/07/31"));
-//            studentList.add(new Student("S3630500", "Diarmuid Ua Duibhne","1999/02/03"));
-//            studentList.add(new Student("S3637600", "Momo Nene","1999/05/23"));
-//            studentList.add(new Student("S3638500", "John K. Astaroth","2000/02/26"));
-//            studentList.add(new Student("S3630710", "Victor von Krakenstein Jr.","2000/04/07"));
-//            studentList.add(new Student("S3630057", "John Smith","2000/07/24"));
+//        studentList.add(new Student("S3630000", "John Smith","1998/10/21"));
+//        studentList.add(new Student("S3632000", "Anne Ayler","1998/04/19"));
+//        studentList.add(new Student("S3635661", "Lee Sun Kim","1998/06/01"));
+//        studentList.add(new Student("S3630022", "Takanashi Kiara","1998/10/21"));
+//        studentList.add(new Student("S3634050", "Do Vuong Trai","1998/07/31"));
+//        studentList.add(new Student("S3630500", "Diarmuid Ua Duibhne","1999/02/03"));
+//        studentList.add(new Student("S3637600", "Momo Nene","1999/05/23"));
+//        studentList.add(new Student("S3638500", "John K. Astaroth","2000/02/26"));
+//        studentList.add(new Student("S3630710", "Victor von Krakenstein Jr.","2000/04/07"));
+//        studentList.add(new Student("S3630057", "John Smith","2000/07/24"));
 
         //Populating a semester list for easy lookup check.
         String[] semesterList = {"2020A", "2020B","2020C","2021A", "2021B","2021C","2022A", "2022B","2022C"};
